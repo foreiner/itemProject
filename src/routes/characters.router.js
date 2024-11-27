@@ -4,7 +4,6 @@ import express from "express";
 import { prisma } from "../utils/prisma/index.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { loginAccessToken } from "../middlewares/tokens.middleware.js";
 
 const { mysecretkey, saltRounds } = process.env;
 const router = express.Router();

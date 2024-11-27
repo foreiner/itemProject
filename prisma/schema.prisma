@@ -18,7 +18,27 @@ model User {
   password    String     @map("password")
   name    String     @map("name")
 
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  character character[]
+
+  @@map(name: "users")
+}
+
+
+model character {
+  id       String   @id  @default(autoincrement()) @map("id")
+  userId   string   @map("userId")
+  name     String   @unique  @map("name")
+  age      int      @default(20) @map("age")
+  health   int      @default(500) @map("health")
+  power    int      @default(100) @map("power")
+  money    int      @default(10000) @map("money")
 
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
+
+  @@map(name: "characters")
 }
+
