@@ -9,8 +9,9 @@ const { mysecretkey, saltRounds } = process.env;
 const router = express.Router();
 
 /** 캐릭터 생성 API **/
-router.post("/characters", async (req, res, next) => {
+router.post("/items", async (req, res, next) => {
   try {
+    
     console.log("캐릭터 생성");
     const { name, age } = req.body;
 

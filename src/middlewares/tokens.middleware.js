@@ -21,7 +21,8 @@ export let loginAccessToken = (req, res) => {
     userAgent: req.headers["user-agent"], // 사용자의 User Agent 정보를 저장합니다.
   };
 
-  res.cookie("accessToken", accessToken); // Access Token을 Cookie에 전달한다.
+  //res.cookie("accessToken", accessToken); // Access Token을 Cookie에 전달한다.
+  res.setHeader("authorization", accessToken);
   res.cookie("refreshToken", refreshToken); // Refresh Token을 Cookie에 전달한다.
   return true;
 };
@@ -35,7 +36,7 @@ export function validationOrRefresh(req, res, next) {
   if (!("" + req.path == "/sign-in" || "" + req.path == "/sign-up")) {
     try {
       console.log("토큰확인");
-      const accessToken = req.cookies.accessToken;
+      const accessToken = req.headers.authorization;
       const refreshToken = req.cookies.refreshToken;
         const userInfo = tokenStorage[refreshToken];
       let payload = validateToken(accessToken, ACCESS_TOKEN_SECRET_KEY);
