@@ -3,6 +3,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import UsersRouter from "./routes/users.router.js";
+import items from "./routes/items.router.js"
 import {validationOrRefresh} from './middlewares/tokens.middleware.js'
 import errorHandlingMiddleware from "./middlewares/error-handling.middleware.js";
 import charactersRouter from './routes/characters.router.js'
@@ -13,7 +14,7 @@ const PORT = 3018;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api", validationOrRefresh, [UsersRouter, charactersRouter]);
+app.use("/api", validationOrRefresh, [UsersRouter, charactersRouter, items]);
 app.use(errorHandlingMiddleware);
 
 app.listen(PORT, () => {

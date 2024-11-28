@@ -48,7 +48,7 @@ model character {
 model item {
   item_code       Int   @id  @default(autoincrement()) @map("item_code")
   item_name   String   @map("item_name")
-  item_stat     String   @unique  @map("item_stat")
+  item_stat     String    @map("item_stat")
   item_price      Int      @default(20) @map("item_price")
 
   createdAt DateTime @default(now()) @map("createdAt")
