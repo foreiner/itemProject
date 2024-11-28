@@ -26,44 +26,46 @@ export let loginAccessToken = (req, res) => {
   return true;
 };
 
-export function validationOrRefresh(err, req, res, next) {
+export function validationOrRefresh(req, res, next) {
   //access token 확인
   //확인시 통과
   //access token 없거나 validate 하지 않으면 refresh 확인
   //확인시 새 access token 생성 및 통과
   //에러처리
-  try{
-    const accessToken = req.cookies.accessToken;
-    let payload = validateToken(accessToken, ACCESS_TOKEN_SECRET_KEY);
-  
-    if (!accessToken || !payload) {
+  if (!("" + req.path == "/sign-in" || "" + req.path == "/sign-up")) {
+    try {
+      console.log("토큰확인");
+      const accessToken = req.cookies.accessToken;
       const refreshToken = req.cookies.refreshToken;
-  
-      if (!refreshToken)
-        throw new error('Refresh Token이 존재히지 않습니다.');
-  
-      payload = validateToken(refreshToken, REFRESH_TOKEN_SECRET_KEY);
-      if (!payload) {
-        throw new error('Refresh Token이 유효하지 않습니다.');
-      }
-  
-      const userInfo = tokenStorage[refreshToken];
-      if (!userInfo)
-        throw new error('Refresh Token의 정보가 서버에 존재하지 않습니다.');
+        const userInfo = tokenStorage[refreshToken];
+      let payload = validateToken(accessToken, ACCESS_TOKEN_SECRET_KEY);
 
-      const newAccessToken = createAccessToken(userInfo.id);
-  
-      res.cookie("accessToken", newAccessToken);
+      if (!accessToken || !payload) {
+
+        if (!refreshToken)
+          throw new Error("Refresh Token이 존재히지 않습니다.");
+
+        payload = validateToken(refreshToken, REFRESH_TOKEN_SECRET_KEY);
+        if (!payload) {
+          throw new Error("Refresh Token이 유효하지 않습니다.");
+        }
+
+        if (!userInfo)
+          throw new Error("Refresh Token의 정보가 서버에 존재하지 않습니다.");
+        const newAccessToken = createAccessToken(userInfo.id);
+        res.cookie("accessToken", newAccessToken);
+      }
+        res.locals.user = userInfo.id;
+        console.log(res.locals.user +` : `+ userInfo.id);
+        next();
+    } catch (err) {
+      next(err);
     }
+  }
+  else{
     next();
   }
-  catch(err){
-    return res.json({
-      message: err,
-    });
-  }
 }
-
 
 // Token을 검증하고 Payload를 반환합니다.
 function validateToken(token, secretKey) {
@@ -96,4 +98,3 @@ function createRefreshToken(id) {
 
   return refreshToken;
 }
-

@@ -28,16 +28,18 @@ model User {
 
 
 model character {
-  id       String   @id  @default(autoincrement()) @map("id")
-  userId   string   @map("userId")
+  id       Int   @id  @default(autoincrement()) @map("id")
+  userId   String   @map("userId")
   name     String   @unique  @map("name")
-  age      int      @default(20) @map("age")
-  health   int      @default(500) @map("health")
-  power    int      @default(100) @map("power")
-  money    int      @default(10000) @map("money")
+  age      Int      @default(20) @map("age")
+  health   Int      @default(500) @map("health")
+  power    Int      @default(100) @map("power")
+  money    Int      @default(10000) @map("money")
 
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
+
+  User User @relation(fields: [userId], references: [id]) 
 
   @@map(name: "characters")
 }
