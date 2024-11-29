@@ -33,7 +33,7 @@ router.post("/items/add", async (req, res, next) => {
       data: { item_name, item_stat, item_price } 
     });
 
-    return res.status(200).json({ message: "아이템 생성 성공" });
+    return res.status(201).json({ message: "아이템 생성 성공" });
   } catch (err) {
     next(err);
     // console.log(err);
