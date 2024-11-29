@@ -44,7 +44,7 @@ router.post("/characters", async (req, res, next) => {
       data: { name, age, userId: res.locals.user}
     });
 
-    return res.status(200).json({ id: user.id, message: "캐릭터 생성 성공" });
+    return res.status(201).json({ id: user.id, message: "캐릭터 생성 성공" });
   } catch (err) {
     next(err);
     // console.log(err);
