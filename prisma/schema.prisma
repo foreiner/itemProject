@@ -18,7 +18,41 @@ model User {
   password    String     @map("password")
   name    String     @map("name")
 
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  character character[]
+
+  @@map(name: "users")
+}
+
+
+model character {
+  id       Int   @id  @default(autoincrement()) @map("id")
+  userId   String   @map("userId")
+  name     String   @unique  @map("name")
+  age      Int      @default(20) @map("age")
+  health   Int      @default(500) @map("health")
+  power    Int      @default(100) @map("power")
+  money    Int      @default(10000) @map("money")
 
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
+
+  User User @relation(fields: [userId], references: [id]) 
+
+  @@map(name: "characters")
+}
+
+
+model item {
+  item_code       Int   @id  @default(autoincrement()) @map("item_code")
+  item_name   String   @map("item_name")
+  item_stat     String    @map("item_stat")
+  item_price      Int      @default(20) @map("item_price")
+
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  @@map(name: "items")
 }
